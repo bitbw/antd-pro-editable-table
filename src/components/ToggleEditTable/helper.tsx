@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import dayjs from "dayjs";
 import type { FormInstance, FormItemProps } from "antd/es/form";
 import { ProTableProps } from "@ant-design/pro-components";
@@ -230,11 +230,9 @@ export const getNewTableDataByToggleEditTable = ({
   const newTabaleData = tableData.map((item) => {
     if (item[dataKey] === newData[dataKey]) {
       const newItem = { ...item };
-      console.log("[BOWEN_LOG] 🚀 ~~ newTabaleData ~~ newItem:", newItem);
       for (const key in newData) {
         const newValue = newData[key];
         const keys = key.split(".");
-        console.log("[BOWEN_LOG] 🚀 ~~ newTabaleData ~~ keys:", keys);
         keys.reduce((obj, key, index) => {
           if (index === keys.length - 1) {
             obj[key] = newValue;

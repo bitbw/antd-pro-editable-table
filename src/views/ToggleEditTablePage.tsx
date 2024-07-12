@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import { ProColumns } from "@ant-design/pro-components";
 import UserRow from "@/components/UserRow";
 
-const userList = [
+const getUserList = () => [
   {
     name: "bowen",
     avatar:
@@ -34,16 +34,17 @@ const getColumns = (setTableData: any) =>
       title: "user",
       dataIndex: ["user", "id"],
       editable: true,
-      width: 120,
+
       valueType: "userSelect",
       render: (_: any, record: any) => {
-        const data = userList?.find?.((item) => item.id === record["user"].id);
-        console.log("[BOWEN_LOG] 🚀 ~~  render userList data:", data);
+        const data = getUserList().find?.(
+          (item) => item.id === record["user"].id,
+        );
         return <UserRow style={{ height: 22 }} data={data || {}} />;
       },
       fieldProps: {
-        options: userList || [],
-        valuekey: "id",
+        options: getUserList() || [],
+        // valuekey: "id",
         isMultiple: false,
       },
       formItemProps: {
@@ -62,11 +63,12 @@ const getColumns = (setTableData: any) =>
       valueType: "select",
       editable: true,
       fieldProps: {
-        options: [
-          { label: "1", value: 1 },
-          { label: "2", value: 2 },
-          { label: "3", value: 3 },
-        ],
+        options: Array.from({ length: 18 }, (_, index) => {
+          return {
+            label: index + 1,
+            value: index + 1,
+          };
+        }),
       },
     },
     {
@@ -98,32 +100,38 @@ const getColumns = (setTableData: any) =>
       ],
     },
   ] as ProColumns<any>[];
-
+const getDefaultData = () => [
+  {
+    id: 1,
+    user: getUserList()[0],
+    age: 18,
+    address: "beijing",
+    birthday: "1992-10-11",
+  },
+  {
+    id: 2,
+    user: getUserList()[1],
+    age: 18,
+    address: "shanghai",
+    birthday: "1991-10-22",
+  },
+];
 export default function ToggleEditTablePage() {
-  const [tableData, setTableData] = useState([
-    {
-      id: 1,
-      user: userList[0],
-      age: 18,
-      address: "beijing",
-      birthday: "1992-10-11",
-    },
-    {
-      id: 2,
-      user: userList[1],
-      age: 18,
-      address: "shanghai",
-      birthday: "1991-10-22",
-    },
-  ]);
+  const [tableData, setTableData] = useState(getDefaultData());
 
-  const columns = useMemo(() => getColumns(setTableData), [setTableData]);
+  const columns = useMemo(
+    () =>
+      getColumns(setTableData).map((item) => {
+        return { ...item, width: 200, align: "center" };
+      }),
+    [setTableData],
+  );
 
   const handleSave = async (oldData: any, newData: any) => {
     console.log("[BOWEN_LOG] 🚀 ~~ handleSave ~~ newData:", newData);
     console.log("[BOWEN_LOG] 🚀 ~~ handleSave ~~ oldData:", oldData);
-    const updatedFields: any = {};
-    const updatedTableFields: any = {};
+    const updatedFields: any = {}; // for whether changed
+    const updatedTableFields: any = {}; // final data
     // 遍历修改后的记录
     for (const key in newData) {
       let newValue = newData[key];
@@ -140,11 +148,11 @@ export default function ToggleEditTablePage() {
     }
     console.log(
       "[BOWEN_LOG] 🚀 ~~ handleSave ~~ updatedFields:",
-      updatedFields
+      updatedFields,
     );
     console.log(
       "[BOWEN_LOG] 🚀 ~~ handleSave ~~ updatedTableFields:",
-      updatedTableFields
+      updatedTableFields,
     );
     if (Object.keys(updatedFields).length === 0) {
       console.log("[BOWEN_LOG] 🚀 handleEditSave ~~~ 没有字段被修改");
@@ -156,10 +164,6 @@ export default function ToggleEditTablePage() {
         tableData,
         newData: { id: oldData.id, ...updatedTableFields },
       });
-      console.log(
-        "[BOWEN_LOG] 🚀 ~~ setTableData ~~ newTableData:",
-        newTableData
-      );
       return newTableData;
     });
   };
