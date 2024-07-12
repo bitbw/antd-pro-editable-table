@@ -1,0 +1,54 @@
+.toggleEditTable {
+  // .editable-row:hover .editable-cell-value-wrap {
+  //   padding: 4px 11px;
+  //   border: 1px solid #d9d9d9;
+  //   border-radius: 4px;
+  // }
+  :global .ant-table-cell {
+    &:hover > .editable-cell-value-wrap {
+      padding: 4px 4px;
+      border: 1px solid #d9d9d9;
+      border-radius: 6px;
+      // min-height: 30px;
+    }
+    .editable-cell-value-wrap-on-edit {
+      padding: 5px 0;
+    }
+    .editable-cell-value-wrap {
+      padding: 5px 0;
+      cursor: pointer;
+    }
+    .ant-input-number {
+      width: 100%;
+    }
+    .ant-picker {
+      width: 100%;
+    }
+  }
+}
+
+.editableCell {
+  position: relative;
+  width: 100%;
+  &:hover > :global(.editable-cell-value-wrap) {
+    padding: 4px 4px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    // min-height: 30px;
+  }
+  :global .editable-cell-value-wrap {
+    padding: 5px 0;
+    cursor: pointer;
+  }
+  :global .editable-cell-value-wrap-on-edit {
+    padding: 5px 0;
+  }
+  :global .editable-cell-value-form {
+    .ant-input-number {
+      width: 100%;
+    }
+    .ant-picker {
+      width: 100%;
+    }
+  }
+}

@@ -1,6 +1,5 @@
 import App from "../App";
 import { Navigate, RouteObject } from "react-router-dom";
-import AboutPage from "../views/AboutPage";
 import FeaturePage from "../views/FeaturePage";
 import {
   CrownFilled,
@@ -9,6 +8,7 @@ import {
   // TabletFilled,
 } from "@ant-design/icons";
 import { MenuDataItem } from "@ant-design/pro-components";
+import ToggleEditTablePage from "@/views/ToggleEditTablePage";
 export type RouterItem = RouteObject &
   MenuDataItem & {
     // name: string;
@@ -31,21 +31,15 @@ export const routerList = [
         children: [
           {
             path: "/about/sub-page1",
-            name: "一级页面",
+            name: "editable",
             icon: "https://gw.alipayobjects.com/zos/antfincdn/upvrAjAPQX/Logo_Tech%252520UI.svg",
-            element: <AboutPage />,
+            element: <ToggleEditTablePage />,
           },
           {
             path: "/about/sub-page2",
             name: "二级页面",
             icon: <CrownFilled />,
             element: <>二级页面</>,
-          },
-          {
-            path: "/about/sub-page3",
-            name: "三级页面",
-            icon: <CrownFilled />,
-            element: <>三级页面</>,
           },
         ],
       },
